@@ -19,6 +19,10 @@
 #include <linux/msm_audio_ion.h>
 #include <linux/qpnp/qpnp-haptic.h>
 
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+#include <linux/input/doubletap2wake.h>
+#endif
+
 #include <soc/qcom/socinfo.h>
 #include <linux/qdsp6v2/apr_tal.h>
 
@@ -123,6 +127,18 @@ static int voice_send_get_sound_focus_cmd(struct voice_data *v,
 				struct sound_focus_param *soundFocusData);
 static int voice_send_get_source_tracking_cmd(struct voice_data *v,
 			struct source_tracking_param *sourceTrackingData);
+
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+static bool status_incall = false;
+static void set_incall_status(bool incall)
+{
+	status_incall = incall;
+}
+bool dt2w_incall_on(void)
+{
+	return status_incall;
+}
+#endif
 
 static void voice_itr_init(struct voice_session_itr *itr,
 			   u32 session_id)
@@ -5823,6 +5839,10 @@ int voc_end_voice_call(uint32_t session_id)
 		return -EINVAL;
 	}
 
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+	set_incall_status(false);
+#endif
+
 	mutex_lock(&v->lock);
 
 	if (v->voc_state == VOC_RUN || v->voc_state == VOC_ERROR ||
@@ -6059,6 +6079,10 @@ int voc_resume_voice_call(uint32_t session_id)
 	struct voice_data *v = voice_get_session(session_id);
 	int ret = 0;
 
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+	set_incall_status(true);
+#endif
+
 	ret = voice_send_start_voice_cmd(v);
 	if (ret < 0) {
 		pr_err("Fail in sending START_VOICE\n");
@@ -6080,6 +6104,10 @@ int voc_start_voice_call(uint32_t session_id)
 
 		return -EINVAL;
 	}
+
+#ifdef CONFIG_TOUCHSCREEN_DOUBLETAP2WAKE
+	set_incall_status(true);
+#endif
 
 	mutex_lock(&v->lock);
 
