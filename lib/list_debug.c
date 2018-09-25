@@ -29,8 +29,6 @@ bool __list_add_valid(struct list_head *new, struct list_head *prev,
 	    CHECK_DATA_CORRUPTION(new == prev || new == next,
 			"list_add double add: new=%p, prev=%p, next=%p.\n",
 			new, prev, next)) {
-		BUG_ON((prev->next != next || next->prev != prev ||
-			new == prev || new == next) && PANIC_CORRUPTION);
 		return false;
 	}
 
@@ -57,7 +55,6 @@ bool __list_del_entry_valid(struct list_head *entry)
 	    CHECK_DATA_CORRUPTION(next->prev != entry,
 			"list_del corruption. next->prev should be %p, but was %p\n",
 			entry, next->prev)) {
-		BUG_ON(PANIC_CORRUPTION);
 		return false;
 	}
 
