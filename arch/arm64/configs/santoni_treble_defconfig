@@ -1,4 +1,8 @@
-CONFIG_LOCALVERSION="-Clarity"
+############luuvyx###########
+CONFIG_CLANG_POLLY=y
+############luuvyx###########
+CONFIG_LOCALVERSION="-Luuvy-𝕏KRᏬNK-𝕏𝟙.𝟝_"
+CONFIG_LOCALVERSION_AUTO=n
 # CONFIG_USELIB is not set
 CONFIG_AUDIT=y
 CONFIG_NO_HZ=y
