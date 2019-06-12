@@ -1,6 +1,7 @@
 ############luuvyx###########
 CONFIG_CLANG_POLLY=y
 CONFIG_ADRENO_IDLER=y
+CONFIG_FRANDOM=y
 ############luuvyx###########
 CONFIG_LOCALVERSION="-Luuvy-𝕏KRᏬNK-𝕏𝟙.𝟝_"
 CONFIG_LOCALVERSION_AUTO=n
