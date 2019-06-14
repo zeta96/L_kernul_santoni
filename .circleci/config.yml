@@ -1,0 +1,23 @@
+version: 2.1
+jobs:
+  compile:
+    docker:
+      - image: ubuntu:18.04
+    steps:
+      - run:
+          name: "install package requirement"
+          command: |
+            apt-get -y update && apt-get -y install bc build-essential zip curl libstdc++6 git wget git ssh
+            apt-get -y install bc
+      - checkout
+      - run:
+          name: "Cooking Kernel"
+          command: |
+            curl https://raw.githubusercontent.com/zeta96/kernelci/master/L_circleci_dtc9_googlexx --output kernel.sh
+            chmod +x kernel.sh
+            bash kernel.sh
+workflows:
+  version: 2.1
+  cooking:
+    jobs:
+      - compile
