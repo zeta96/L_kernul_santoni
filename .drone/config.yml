@@ -15,4 +15,4 @@ steps:
       - sh -c "$(curl -fsSL https://raw.githubusercontent.com/zeta96/kernelci/master/L_drone_clang)"
     when:
       branch:
-        - 3.18-pie-googlexx
+        - msm-3.18-googlexx
