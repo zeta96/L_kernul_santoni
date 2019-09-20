@@ -590,30 +590,21 @@ int flag_led = 0;
 
 int32_t wt_flash_flashlight(bool boolean)
 {
-	uint32_t curr = 0;
+	uint32_t curr = boolean ? 100 : 0;
 	int32_t i = 0;
 
-	if (boolean)
-		curr = 100;
-	else
-		curr = 0;
-
-	if (flag_led > 0 && boolean == 0) {
+	if ((flash_ctrl_wt == NULL) ||
+		(flag_led > 0 && !boolean))
 		return 0;
+
+	for (i = 0; i < flash_ctrl_wt->torch_num_sources - 1; i++) {
+		if (flash_ctrl_wt->torch_trigger[i])
+				led_trigger_event(flash_ctrl_wt->torch_trigger[i], curr);
 	}
 
-	if (flash_ctrl_wt)  {
-		for (i = 0; i < flash_ctrl_wt->torch_num_sources - 1; i++) {
-			if (flash_ctrl_wt->torch_trigger[i])
-				led_trigger_event(flash_ctrl_wt->torch_trigger[i], curr);
-		}
-		if (flash_ctrl_wt->switch_trigger) {
-			if (boolean)
-				led_trigger_event(flash_ctrl_wt->switch_trigger, 1);
-			else
-				led_trigger_event(flash_ctrl_wt->switch_trigger, 0);
-		}
-	}
+	if (flash_ctrl_wt->switch_trigger)
+		led_trigger_event(flash_ctrl_wt->switch_trigger, boolean ? 1 : 0);
+
 	return 0;
 }
 
