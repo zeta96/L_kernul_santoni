@@ -2286,9 +2286,9 @@ void sched_get_cpus_busy(struct sched_load *busy,
 	unsigned long flags;
 	struct rq *rq;
 	const int cpus = cpumask_weight(query_cpus);
-	u64 load[cpus];
-	unsigned int cur_freq[cpus], max_freq[cpus];
-	int notifier_sent[cpus];
+	u64 load[4];
+	unsigned int cur_freq[4], max_freq[4];
+	int notifier_sent[4];
 	int cpu, i = 0;
 	unsigned int window_size;
 
