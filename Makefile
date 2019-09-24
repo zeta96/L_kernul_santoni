@@ -388,7 +388,7 @@ KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
 		   -Wno-format-security \
 		   -std=gnu89
 		   
-KBUILD_CFLAGS += -mcpu=cortex-a53+crypto+crc
+KBUILD_CFLAGS += -mcpu=cortex-a53+crypto+crc -Werror=vla
 
 KBUILD_AFLAGS_KERNEL :=
 KBUILD_CFLAGS_KERNEL :=
