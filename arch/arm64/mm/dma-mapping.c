@@ -1633,7 +1633,8 @@ void arm_iommu_detach_device(struct device *dev)
 		return;
 	}
 
-	msm_dma_unmap_all_for_dev(dev);
+	if (msm_dma_unmap_all_for_dev(dev))
+		dev_warn(dev, "IOMMU detach with outstanding mappings\n");
 
 	iommu_detach_device(mapping->domain, dev);
 	kref_put(&mapping->kref, release_iommu_mapping);
