@@ -741,9 +741,9 @@ static size_t qcrypto_sg_copy_from_buffer(struct scatterlist *sgl,
 				unsigned int nents, void *buf, size_t buflen)
 {
 	int i;
-	size_t offset, len;
+	size_t offset = 0, len;
 
-	for (i = 0, offset = 0; i < nents; ++i) {
+ 	for_each_sg(sgl, sgl, nents, i) {
 		if (NULL == sgl) {
 			pr_err("qcrypto.c: qcrypto_sg_copy_from_buffer, sgl = NULL");
 			break;
@@ -752,7 +752,6 @@ static size_t qcrypto_sg_copy_from_buffer(struct scatterlist *sgl,
 		buf += len;
 		buflen -= len;
 		offset += len;
-		sgl = scatterwalk_sg_next(sgl);
 	}
 
 	return offset;
@@ -762,9 +761,9 @@ static size_t qcrypto_sg_copy_to_buffer(struct scatterlist *sgl,
 				unsigned int nents, void *buf, size_t buflen)
 {
 	int i;
-	size_t offset, len;
+	size_t offset = 0, len;
 
-	for (i = 0, offset = 0; i < nents; ++i) {
+ 	for_each_sg(sgl, sgl, nents, i) {
 		if (NULL == sgl) {
 			pr_err("qcrypto.c: qcrypto_sg_copy_from_buffer, sgl = NULL");
 			break;
@@ -773,7 +772,6 @@ static size_t qcrypto_sg_copy_to_buffer(struct scatterlist *sgl,
 		buf += len;
 		buflen -= len;
 		offset += len;
-		sgl = scatterwalk_sg_next(sgl);
 	}
 
 	return offset;

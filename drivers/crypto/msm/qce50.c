@@ -232,14 +232,12 @@ static int qce_dma_map_sg(struct device *dev, struct scatterlist *sg, int nents,
 {
 	int i;
 
-	for (i = 0; i < nents; ++i) {
+ 	for_each_sg(sg, sg, nents, i)
 		if (NULL == sg) {
 			pr_err("qce50.c: qce_dma_map_sg, sg = NULL");
 			break;
 		}
 		dma_map_sg(dev, sg, 1, direction);
-		sg = scatterwalk_sg_next(sg);
-	}
 
 	return nents;
 }
@@ -249,14 +247,12 @@ static int qce_dma_unmap_sg(struct device *dev, struct scatterlist *sg,
 {
 	int i;
 
-	for (i = 0; i < nents; ++i) {
+ 	for_each_sg(sg, sg, nents, i)
 		if (NULL == sg) {
 			pr_err("qce50.c: qce_dma_unmap_sg, sg = NULL");
 			break;
 		}
 		dma_unmap_sg(dev, sg, 1, direction);
-		sg = scatterwalk_sg_next(sg);
-	}
 
 	return nents;
 }
