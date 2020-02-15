@@ -10,7 +10,7 @@ clone:
 
 steps:
   - name: Compile
-    image: kdrag0n/fedora-kbuild:gcc-9.1.1
+    image: fedora:latest
     commands:
       - sh -c "$(curl -fsSL https://raw.githubusercontent.com/zeta96/kernelci/master/L_drone_clang)"
     when:
